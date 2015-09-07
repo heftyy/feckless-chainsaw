@@ -1,7 +1,7 @@
 <button class="btn btn-primary" data-ng-click="printDiv('printable')">Drukuj</button>
 <div class="row" id="printable">
     <link rel="stylesheet" media="print" href="assets/stylesheets/main.css">
-    <div class="col-xs-9">
+    <div class="col-xs-12">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -24,7 +24,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-12">
         <ul class="list-unstyled">
             <li ng-repeat="person in people">
                 {{ person.firstName }} {{ person.lastName }} [ {{ person.totalTime }} min]
