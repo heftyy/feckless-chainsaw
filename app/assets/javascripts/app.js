@@ -5,10 +5,10 @@
  * Splitting it into several RequireJS modules allows async loading. We cannot take full advantage
  * of RequireJS and lazy-load stuff because the angular modules have their own dependency system.
  */
-define(['angular', 'home', 'duty', 'ui.grid'], function (angular) {
+define(['angular', 'home', 'duty', 'ui.grid', 'select2'], function (angular) {
     'use strict';
 
     // We must already declare most dependencies here (except for common), or the submodules' routes
     // will not be resolved
-    return angular.module('app', ['ngStorage', 'ui.grid', 'ui.grid.edit', 'ui.grid.autoResize', 'sc.home', 'sc.duty']);
+    return angular.module('app', ['ngStorage', 'ui.select', 'ui.grid', 'ui.grid.edit', 'ui.grid.autoResize', 'sc.home', 'sc.duty']);
 });

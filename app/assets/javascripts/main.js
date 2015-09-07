@@ -22,7 +22,8 @@
             'angular-touch': ['angular'],
             'ngStorage': ['angular'],
             'ui.grid': ['angular'],
-            'bootstrap': ['jquery']
+            'bootstrap': ['jquery'],
+            "select2": [ "angular" ]
         },
         paths: {
             'requirejs': ['../lib/requirejs/require'],
@@ -34,7 +35,8 @@
             'ngStorage': ['../lib/ngStorage/ngStorage'],
             'ui.grid': ['../lib/ui-grid/ui-grid'],
             'bootstrap': ['../lib/bootstrap/js/bootstrap'],
-            'jsRoutes': ['/jsroutes']
+            'jsRoutes': ['/jsroutes'],
+            'select2': ['../lib/angular-ui-select/select']
         }
     });
 

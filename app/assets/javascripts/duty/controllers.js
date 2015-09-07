@@ -87,10 +87,17 @@ define([], function () {
 
     var TimetableCtrl = function($scope, $localStorage) {
         $scope.daysOfWeek = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek'];
-        $scope.breakTimes = {1: 10, 2: 10, 3: 10, 4: 10, 5: 20, 6: 10, 7: 10, 8: 10, 9: 10};
+        $scope.breakTimes = {0: 15, 1: 10, 2: 10, 3: 10, 4: 10, 5: 20, 6: 10, 7: 10};
         $scope.places = $.isArray($localStorage.places) ? $localStorage.places : [];
         $scope.people = $.isArray($localStorage.people) ? $localStorage.people : [];
         $scope.timeTable = $.isPlainObject($localStorage.timeTable) ? $localStorage.timeTable : {};
+
+        $scope.countries = [ // Taken from https://gist.github.com/unceus/6501985
+            {name: 'Afghanistan', code: 'AF'},
+            {name: 'Åland Islands', code: 'AX'},
+            {name: 'Albania', code: 'AL'},
+            {name: 'Algeria', code: 'DZ'}
+        ];
 
         var getPersonIndex = function(firstName, lastName) {
             for(var i = 0; i < $scope.people.length; i++) {
@@ -105,7 +112,7 @@ define([], function () {
             var total = 0;
 
             for(var i = 0; i < $scope.places.length; i++) {
-                var place = $scope.places[i];
+                var place = $scope.places[i].name;
                 for(var j = 0; j < $scope.daysOfWeek.length; j++) {
                     var day = $scope.daysOfWeek[j];
                     for (var breakIndex in $scope.breakTimes) {
@@ -140,13 +147,14 @@ define([], function () {
             $localStorage.timeTable = clone($scope.timeTable);
         };
 
-        $scope.getTimeForPerson = function(day, place, firstName, lastName) {
-            var index = getPersonIndex(firstName, lastName);
-            var person = $scope.people[index];
+        $scope.getPerson = function(place, day, breakIndex) {        
+            if($scope.timeTable[place] === undefined) return;
+            if($scope.timeTable[place][day] === undefined) return;
+            if($scope.timeTable[place][day][breakIndex] === undefined) return;
 
-            if(person[day] === undefined) return;
+            var index = $scope.timeTable[place][day][breakIndex];
 
-            return $scope.people[index][day][place];
+            return $scope.people[index];
         };
     };
     TimetableCtrl.$inject = ['$scope', '$localStorage'];
