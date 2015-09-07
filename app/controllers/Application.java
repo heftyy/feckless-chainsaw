@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.io.File;
 import org.apache.commons.io.FileUtils;
 import play.data.DynamicForm;
@@ -55,7 +53,26 @@ public class Application extends Controller {
 
         if(json == null) return badRequest("Missing json");
 
-        File file = new File("duty.json");
+        String timeString = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+
+        File dir = new File("files/duty/");
+
+        try {
+            FileUtils.forceMkdir(dir);
+        } catch (IOException e) {
+            return internalServerError("Couldn't create directories.");
+        }
+
+        File file = new File("files/duty/duty.json");
+        File backupFile = new File("files/duty/duty_"+timeString+".json");
+
+        try {
+            if(file.exists()) FileUtils.moveFile(file, backupFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return internalServerError("Couldn't make a backup.");
+        }
+
         List<String> lines = new ArrayList<>();
         lines.add(json);
         try {
@@ -68,7 +85,7 @@ public class Application extends Controller {
     }
 
     public Result loadDuty() {
-        File file = new File("duty.json");
+        File file = new File("files/duty/duty.json");
         String json;
         try {
             json = FileUtils.readFileToString(file);
