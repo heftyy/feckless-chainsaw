@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col-sm-6">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="inputPlaceName">Miejsce</label>
+                <input type="text" class="form-control" id="inputPlaceName" data-ng-model="place.name" name="inputPlaceName" placeholder="Miejsce">
+            </div>
+            <button type="submit" class="btn btn-default" data-ng-disabled="form.$invalid" data-ng-click="addPlace(place)">Dodaj</button>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <ul>
+            <li ng-repeat="place in places | orderBy: 'name'" >
+                <span>{{ place.name}} <i class="glyphicon glyphicon-remove-sign" data-ng-click="removePlace(place)"></i></span>
+            </li>
+        </ul>
+    </div>
+</div>
