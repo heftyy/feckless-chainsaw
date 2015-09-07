@@ -1,0 +1,34 @@
+<button class="btn btn-primary" data-ng-click="printDiv('printable')">Drukuj</button>
+<div class="row" id="printable">
+    <link rel="stylesheet" media="print" href="assets/stylesheets/main.css">
+    <div class="col-xs-9">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Przerwa</th>
+                    <th ng-repeat="place in places"> {{ place.name }}</th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="day in daysOfWeek">
+                <tr>
+                    <th class="text-center" colspan="{{ places.length + 1 }}">{{ day }}</th>
+                </tr>
+                <tr ng-repeat="(breakIndex, breakTime) in breakTimes">
+                    <td>
+                        {{ breakIndex }} [{{ breakTime }} min]
+                    </td>
+                    <td ng-repeat="place in places">
+                        {{ getPerson(place.name, day, breakIndex).fullName }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-3">
+        <ul class="list-unstyled">
+            <li ng-repeat="person in people">
+                {{ person.firstName }} {{ person.lastName }} [ {{ person.totalTime }} min]
+            </li>
+        </ul>
+    </div>
+</div>
