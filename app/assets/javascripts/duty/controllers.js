@@ -92,13 +92,6 @@ define([], function () {
         $scope.people = $.isArray($localStorage.people) ? $localStorage.people : [];
         $scope.timeTable = $.isPlainObject($localStorage.timeTable) ? $localStorage.timeTable : {};
 
-        $scope.countries = [ // Taken from https://gist.github.com/unceus/6501985
-            {name: 'Afghanistan', code: 'AF'},
-            {name: 'Åland Islands', code: 'AX'},
-            {name: 'Albania', code: 'AL'},
-            {name: 'Algeria', code: 'DZ'}
-        ];
-
         var getPersonIndex = function(firstName, lastName) {
             for(var i = 0; i < $scope.people.length; i++) {
                 var person = $scope.people[i];
@@ -196,11 +189,39 @@ define([], function () {
     };
     TimetableCtrl.$inject = ['$scope', '$localStorage'];
 
+    var PrintCtrl = function ($scope, $localStorage) {
+        $scope.daysOfWeek = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek'];
+        $scope.breakTimes = {0: 15, 1: 10, 2: 10, 3: 10, 4: 10, 5: 20, 6: 10, 7: 10};
+        $scope.places = $.isArray($localStorage.places) ? $localStorage.places : [];
+        $scope.people = $.isArray($localStorage.people) ? $localStorage.people : [];
+        $scope.timeTable = $.isPlainObject($localStorage.timeTable) ? $localStorage.timeTable : {};
+
+        $scope.printDiv = function(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var popupWin = window.open('', '_blank', 'width=1000,height=800');
+            popupWin.document.open();
+            popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + printContents + '</html>');
+            popupWin.document.close();
+        };
+
+        $scope.getPerson = function(place, day, breakIndex) {
+            if($scope.timeTable[place] === undefined) return;
+            if($scope.timeTable[place][day] === undefined) return;
+            if($scope.timeTable[place][day][breakIndex] === undefined) return;
+
+            var index = $scope.timeTable[place][day][breakIndex];
+
+            return $scope.people[index];
+        };
+    };
+    PrintCtrl.$inject = ['$scope', '$localStorage'];
+
     return {
         DutyCtrl: DutyCtrl,
         PeopleCtrl: PeopleCtrl,
         PlacesCtrl: PlacesCtrl,
-        TimetableCtrl: TimetableCtrl
+        TimetableCtrl: TimetableCtrl,
+        PrintCtrl: PrintCtrl
     };
 
 });

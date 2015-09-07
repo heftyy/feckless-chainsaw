@@ -10,7 +10,8 @@ define(['angular', './controllers', 'common'], function (angular, controllers) {
             .when('/duty', {templateUrl: '/assets/javascripts/duty/duty.html', controller: controllers.DutyCtrl})
             .when('/people', {templateUrl: '/assets/javascripts/duty/people.html', controller: controllers.PeopleCtrl})
             .when('/places', {templateUrl: '/assets/javascripts/duty/places.html', controller: controllers.PlacesCtrl})
-            .when('/timetable', {templateUrl: '/assets/javascripts/duty/timetable.html', controller: controllers.TimetableCtrl});
+            .when('/timetable', {templateUrl: '/assets/javascripts/duty/timetable.html', controller: controllers.TimetableCtrl})
+            .when('/print', {templateUrl: '/assets/javascripts/duty/print.html', controller: controllers.PrintCtrl});
     }]);
     return mod;
 });
