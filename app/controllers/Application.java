@@ -10,7 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
-import java.File;
 
 import static org.reflections.ReflectionUtils.getAllMethods;
 import static org.reflections.ReflectionUtils.withReturnType;
@@ -43,8 +42,7 @@ public class Application extends Controller {
     }
 
     public Result saveDuty() {
-        File file = new File("/commons/io/project.properties");
-        List lines = FileUtils.readLines(file, "UTF-8");
+        return ok();
     }
 
 }
