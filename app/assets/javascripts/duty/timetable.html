@@ -16,7 +16,7 @@
                         {{ breakIndex }} [{{ breakTime }} min]
                     </td>
                     <td ng-repeat="place in places">
-                        <select ng-options="person.fullName for person in people" ng-model="selected" data-ng-change="updateTimeTable(breakIndex, break, day, place.name, selected)"></select>
+                        <select ng-options="person.fullName for person in people" ng-model="selected" data-ng-change="updateTimeTable(breakIndex, breakTime, day, place.name, selected)"></select>
                     </td>
                 </tr>
             </tbody>

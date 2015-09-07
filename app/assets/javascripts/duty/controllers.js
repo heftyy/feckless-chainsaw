@@ -4,6 +4,40 @@
 define([], function () {
     'use strict';
 
+    function clone(obj) {
+        var copy;
+
+        // Handle the 3 simple types, and null or undefined
+        if (null === obj || "object" != typeof obj) return obj;
+
+        // Handle Date
+        if (obj instanceof Date) {
+            copy = new Date();
+            copy.setTime(obj.getTime());
+            return copy;
+        }
+
+        // Handle Array
+        if (obj instanceof Array) {
+            copy = [];
+            for (var i = 0, len = obj.length; i < len; i++) {
+                copy[i] = clone(obj[i]);
+            }
+            return copy;
+        }
+
+        // Handle Object
+        if (obj instanceof Object) {
+            copy = {};
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+            }
+            return copy;
+        }
+
+        throw new Error("Unable to copy obj! Its type isn't supported.");
+    }
+
     var DutyCtrl = function ($scope) {
     };
     DutyCtrl.$inject = ['$scope'];
@@ -56,6 +90,7 @@ define([], function () {
         $scope.breakTimes = {1: 10, 2: 10, 3: 10, 4: 10, 5: 20, 6: 10, 7: 10, 8: 10, 9: 10};
         $scope.places = $.isArray($localStorage.places) ? $localStorage.places : [];
         $scope.people = $.isArray($localStorage.people) ? $localStorage.people : [];
+        $scope.timeTable = $.isPlainObject($localStorage.timeTable) ? $localStorage.timeTable : {};
 
         var getPersonIndex = function(firstName, lastName) {
             for(var i = 0; i < $scope.people.length; i++) {
@@ -73,12 +108,18 @@ define([], function () {
                 var place = $scope.places[i];
                 for(var j = 0; j < $scope.daysOfWeek.length; j++) {
                     var day = $scope.daysOfWeek[j];
+                    for (var breakIndex in $scope.breakTimes) {
+                        if ($scope.breakTimes.hasOwnProperty(breakIndex)) {
+                            var breakTime = $scope.breakTimes[breakIndex];
 
-                    if(person[day] === undefined) continue;
-                    var breakIndex = person[day][place.name];
+                            if($scope.timeTable[place] === undefined) continue;
+                            if($scope.timeTable[place][day] === undefined) continue;
+                            if($scope.timeTable[place][day][breakIndex] === undefined) continue;
 
-                    if(breakIndex !== undefined) {
-                        total += $scope.breakTimes[breakIndex];
+                            if(personIndex === $scope.timeTable[place][day][breakIndex]) {
+                                total += breakTime;
+                            }
+                        }
                     }
                 }
             }
@@ -87,12 +128,16 @@ define([], function () {
         };
 
         $scope.updateTimeTable = function(breakIndex, time, day, place, selected) {
-            var index = getPersonIndex(selected.firstName, selected.lastName);
-            if(index === -1) return;
+            var personIndex = getPersonIndex(selected.firstName, selected.lastName);
+            if(personIndex === -1) return;
 
-            if($scope.people[index][day] === undefined) $scope.people[index][day] = {};
-            $scope.people[index][day][place] = breakIndex;
-            countTotalTimeForPerson(index);
+            if($scope.timeTable[place] === undefined) $scope.timeTable[place] = {};
+            if($scope.timeTable[place][day] === undefined) $scope.timeTable[place][day] = {};
+            $scope.timeTable[place][day][breakIndex] = personIndex;
+
+            countTotalTimeForPerson(personIndex);
+
+            $localStorage.timeTable = clone($scope.timeTable);
         };
 
         $scope.getTimeForPerson = function(day, place, firstName, lastName) {
