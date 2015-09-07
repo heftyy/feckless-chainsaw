@@ -1,5 +1,3 @@
-import com.typesafe.sbt.packager.Keys._
-
 name := """sc-java"""
 
 version := "1.0-SNAPSHOT"
@@ -19,7 +17,7 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.5" exclude("org.webjars", "jquery"),
   "org.webjars" % "angularjs" % "1.4.3" exclude("org.webjars", "jquery"),
   "org.webjars" % "ngStorage" % "0.3.0",
-  "org.webjars" % "angular-ui-select" % "0.11.2"
+  "commons-io" % "commons-io" % "2.4"
 )
 
 // Play provides two styles of routers, one expects its actions to be injected, the
@@ -27,6 +25,3 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 pipelineStages := Seq(rjs, digest)
-
-
-scriptClasspath := Seq("*")

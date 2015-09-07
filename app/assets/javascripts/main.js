@@ -20,8 +20,7 @@
             'angular-route': ['angular'],
             'angular-cookies': ['angular'],
             'angular-touch': ['angular'],
-            'ngStorage': ['angular'],
-            'ui.grid': ['angular'],
+            'ngStorage': ['angular'],        
             'bootstrap': ['jquery'],
             "select2": [ "angular" ]
         },
@@ -33,7 +32,6 @@
             'angular-cookies': ['../lib/angularjs/angular-cookies'],
             'angular-touch': ['../lib/angularjs/angular-touch'],
             'ngStorage': ['../lib/ngStorage/ngStorage'],
-            'ui.grid': ['../lib/ui-grid/ui-grid'],
             'bootstrap': ['../lib/bootstrap/js/bootstrap'],
             'jsRoutes': ['/jsroutes'],
             'select2': ['../lib/angular-ui-select/select']
