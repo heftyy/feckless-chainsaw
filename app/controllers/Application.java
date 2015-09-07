@@ -1,15 +1,23 @@
 package controllers;
 
 import play.*;
+import play.libs.Json;
 import play.mvc.*;
 
 import views.html.*;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.io.File;
+import org.apache.commons.io.FileUtils;
+import play.data.DynamicForm;
+import play.data.Form;
 
 import static org.reflections.ReflectionUtils.getAllMethods;
 import static org.reflections.ReflectionUtils.withReturnType;
@@ -42,7 +50,33 @@ public class Application extends Controller {
     }
 
     public Result saveDuty() {
+        DynamicForm requestData = Form.form().bindFromRequest();
+        String json = requestData.get("json");
+
+        if(json == null) return badRequest("Missing json");
+
+        File file = new File("duty.json");
+        List<String> lines = new ArrayList<>();
+        lines.add(json);
+        try {
+            FileUtils.writeLines(file, lines);
+        } catch (IOException e) {
+            return internalServerError("Couldn't save to file.");
+        }
+
         return ok();
+    }
+
+    public Result loadDuty() {
+        File file = new File("duty.json");
+        String json;
+        try {
+            json = FileUtils.readFileToString(file);
+        } catch (IOException e) {
+            return internalServerError("Couldn't read file.");
+        }
+
+        return ok(Json.parse(json));
     }
 
 }

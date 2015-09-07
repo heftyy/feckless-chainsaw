@@ -142,7 +142,9 @@ define([], function () {
             if($scope.timeTable[place][day] === undefined) $scope.timeTable[place][day] = {};
             $scope.timeTable[place][day][breakIndex] = personIndex;
 
-            countTotalTimeForPerson(personIndex);
+            for(var i = 0; i < $scope.people.length; i++) {
+                countTotalTimeForPerson(i);
+            }
 
             $localStorage.timeTable = clone($scope.timeTable);
         };
@@ -155,6 +157,41 @@ define([], function () {
             var index = $scope.timeTable[place][day][breakIndex];
 
             return $scope.people[index];
+        };
+
+        $scope.saveToServer = function(e) {
+            var button = $(e.currentTarget).button('loading');
+
+            var json = {
+                people: clone($localStorage.people),
+                places: clone($localStorage.places),
+                timeTable: clone($localStorage.timeTable)
+            };
+
+            jsRoutes.controllers.Application.saveDuty().ajax({
+                data: {json: JSON.stringify(json)},
+                success: function() {
+                    button.button('reset');
+                }
+            });
+        };
+
+        $scope.loadFromServer = function(e) {
+            var button = $(e.currentTarget).button('loading');
+
+            jsRoutes.controllers.Application.loadDuty().ajax({
+                success: function(response) {
+                    button.button('reset');
+
+                    $scope.people = response.people;
+                    $scope.places = response.places;
+                    $scope.timeTable = response.timeTable;
+
+                    $localStorage.people = clone($scope.people);
+                    $localStorage.places = clone($scope.places);
+                    $localStorage.timeTable = clone($scope.timeTable);
+                }
+            });
         };
     };
     TimetableCtrl.$inject = ['$scope', '$localStorage'];
