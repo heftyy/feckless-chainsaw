@@ -128,12 +128,19 @@ define([], function () {
         };
 
         $scope.updateTimeTable = function(breakIndex, time, day, place, selected) {
-            var personIndex = getPersonIndex(selected.firstName, selected.lastName);
-            if(personIndex === -1) return;
+            var personIndex;
+            if(selected === undefined)
+                personIndex = -1;
+            else
+                personIndex = getPersonIndex(selected.firstName, selected.lastName);
 
             if($scope.timeTable[place] === undefined) $scope.timeTable[place] = {};
             if($scope.timeTable[place][day] === undefined) $scope.timeTable[place][day] = {};
-            $scope.timeTable[place][day][breakIndex] = personIndex;
+
+            if(personIndex === -1)
+                delete $scope.timeTable[place][day][breakIndex];
+            else
+                $scope.timeTable[place][day][breakIndex] = personIndex;
 
             for(var i = 0; i < $scope.people.length; i++) {
                 countTotalTimeForPerson(i);

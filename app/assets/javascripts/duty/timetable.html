@@ -16,7 +16,10 @@
                         {{ breakIndex }} [{{ breakTime }} min]
                     </td>
                     <td ng-repeat="place in places">
-                        <p class="text-info">{{ getPerson(place.name, day, breakIndex).fullName }} <i ng-click="showDetails = ! showDetails" class="glyphicon glyphicon-pencil"></i></p>
+                        <p class="text-info">{{ getPerson(place.name, day, breakIndex).fullName }}
+                            <i ng-click="showDetails = ! showDetails" class="glyphicon glyphicon-pencil"></i>
+                            <i ng-click="updateTimeTable(breakIndex, breakTime, day, place.name)" class="glyphicon glyphicon-remove"></i>
+                        </p>
                         <div class="procedure-details" ng-show="showDetails">
                             <select ng-options="person.fullName for person in people" ng-model="selected" data-ng-change="updateTimeTable(breakIndex, breakTime, day, place.name, selected)"></select>
                         </div>
