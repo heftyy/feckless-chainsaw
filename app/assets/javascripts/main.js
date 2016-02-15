@@ -22,7 +22,7 @@
             'angular-touch': ['angular'],
             'ngStorage': ['angular'],        
             'bootstrap': ['jquery'],
-            "select2": [ "angular" ]
+            'select2': [ "angular" ]
         },
         paths: {
             'requirejs': ['../lib/requirejs/require'],

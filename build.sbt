@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.5" exclude("org.webjars", "jquery"),
   "org.webjars" % "angularjs" % "1.4.3" exclude("org.webjars", "jquery"),
   "org.webjars" % "ngStorage" % "0.3.0",
+  "org.webjars" % "angular-ui-select" % "0.14.2",
   "commons-io" % "commons-io" % "2.4"
 )
 
