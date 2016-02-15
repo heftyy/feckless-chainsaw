@@ -4,7 +4,7 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   cache,
@@ -25,3 +25,7 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 pipelineStages := Seq(rjs, digest)
+
+// RequireJS with sbt-rjs (https://github.com/sbt/sbt-rjs#sbt-rjs)
+// ~~~
+RjsKeys.paths += ("jsRoutes" -> ("/jsroutes" -> "empty:"))
