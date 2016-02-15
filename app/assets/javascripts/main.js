@@ -33,7 +33,7 @@
             'angular-touch': ['../lib/angularjs/angular-touch'],
             'ngStorage': ['../lib/ngStorage/ngStorage'],
             'bootstrap': ['../lib/bootstrap/js/bootstrap'],
-            'jsRoutes': ['/jsroutes'],
+            'jsRoutes': ['/jsroutes?noext'],
             'select2': ['../lib/angular-ui-select/select']
         }
     });

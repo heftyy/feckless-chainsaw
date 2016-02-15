@@ -4,7 +4,7 @@
 
 # Home page
 GET         /                    controllers.Application.index()
-GET         /jsroutes.js         controllers.Application.javascriptRoutes()
+GET         /jsroutes            controllers.Application.javascriptRoutes()
 POST        /duty/save           controllers.Application.saveDuty()
 GET         /duty/load           controllers.Application.loadDuty()
 
